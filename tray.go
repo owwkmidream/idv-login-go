@@ -2,11 +2,11 @@ package main
 
 import (
 	"github.com/getlantern/systray"
-	"github.com/getlantern/systray/example/icon"
 	"idv-login-go/certController"
 	"idv-login-go/constants"
 	"idv-login-go/dnsController"
 	"idv-login-go/hostsController"
+	"idv-login-go/icon"
 	"idv-login-go/server"
 	"idv-login-go/windowController"
 	"os"
@@ -139,7 +139,7 @@ func (t *tray) createMenuListening() {
 	t.mToggleWindow = systray.AddMenuItem("显示窗口", "显示窗口")
 	t.mQuit = systray.AddMenuItem("退出", "退出")
 
-	systray.SetIcon(icon.Data)
+	systray.SetIcon(icon.Icon)
 	systray.SetTitle("idv-login-go")
 	systray.SetTooltip("第五人格登录助手")
 
