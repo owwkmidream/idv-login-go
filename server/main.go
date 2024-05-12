@@ -55,7 +55,7 @@ func (s *Server) Run(shutChan chan bool) {
 	// 检查重定向情况
 	ip, err := net.LookupHost(s.targetHost)
 	if err != nil {
-		log.Errorf("重定向失败：%v", err)
+		log.Errorf("LookupHost失败：%v", err)
 		return
 	}
 
@@ -63,12 +63,14 @@ func (s *Server) Run(shutChan chan bool) {
 		log.Errorf("重定向IP不一致，目标IP：%s，解析IP：%s", constants.Localhost, ip[0])
 		return
 	}
+	log.Infof("重定向IP一致，目标IP：%s，解析IP：%s", constants.Localhost, ip[0])
 
 	// 检查端口占用
 	if done, err := s.checkPort(); !done || err != nil {
 		log.Errorf("端口检查失败：%v", err)
 		return
 	}
+	log.Info("端口检查成功")
 
 	// 启动代理服务器
 	log.Info("启动代理服务器...")
