@@ -52,9 +52,8 @@ func configureLogger() *logrus.Logger {
 	}
 	mw := io.MultiWriter(os.Stdout, logFile)
 	log.SetOutput(mw)
-	//log.SetOutput(os.Stdout)
 
-	//默认日志级别为info
+	// 默认日志级别为info
 	log.SetLevel(logrus.InfoLevel)
 	return log
 }
