@@ -156,7 +156,7 @@ func (t *tray) createMenuListening() {
 			case <-t.mToggleWindow.ClickedCh:
 				wC := windowController.GetWindowController()
 				wC.ToggleWindow()
-				if wC.Status == 1 {
+				if wC.IsShow() {
 					t.mToggleWindow.SetTitle("隐藏窗口")
 				} else {
 					t.mToggleWindow.SetTitle("显示窗口")

@@ -46,3 +46,7 @@ func (c *WindowController) ToggleWindow() {
 	c.Status ^= 1
 	_, _, _ = procShowWindow.Call(c.console, uintptr(c.Status))
 }
+
+func (c *WindowController) IsShow() bool {
+	return c.Status == 1
+}
