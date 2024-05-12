@@ -8,15 +8,18 @@ import (
 	"idv-login-go/dnsController"
 	"idv-login-go/hostsController"
 	"idv-login-go/server"
+	"idv-login-go/windowController"
 	"os"
 )
 
 type tray struct {
-	mQuit    *systray.MenuItem
-	mStart   *systray.MenuItem
-	mStop    *systray.MenuItem
-	serv     *server.Server
-	shutChan chan bool
+	mQuit         *systray.MenuItem
+	mStart        *systray.MenuItem
+	mStop         *systray.MenuItem
+	mRestart      *systray.MenuItem
+	mToggleWindow *systray.MenuItem
+	serv          *server.Server
+	shutChan      chan bool
 }
 
 func newTray() *tray {
@@ -108,6 +111,7 @@ func (t *tray) init() bool {
 			return false
 		}
 	}
+	log.Infof("证书准备完成")
 
 	// 解析DNS
 	dnsC := dnsController.NewDnsController()
@@ -131,6 +135,8 @@ func (t *tray) init() bool {
 func (t *tray) createMenuListening() {
 	t.mStart = systray.AddMenuItem("启动", "启动")
 	t.mStop = systray.AddMenuItem("停止", "停止")
+	t.mRestart = systray.AddMenuItem("重启", "重启")
+	t.mToggleWindow = systray.AddMenuItem("显示窗口", "显示窗口")
 	t.mQuit = systray.AddMenuItem("退出", "退出")
 
 	systray.SetIcon(icon.Data)
@@ -144,6 +150,17 @@ func (t *tray) createMenuListening() {
 				t.start()
 			case <-t.mStop.ClickedCh:
 				t.stop()
+			case <-t.mRestart.ClickedCh:
+				t.stop()
+				t.start()
+			case <-t.mToggleWindow.ClickedCh:
+				wC := windowController.GetWindowController()
+				wC.ToggleWindow()
+				if wC.Status == 1 {
+					t.mToggleWindow.SetTitle("隐藏窗口")
+				} else {
+					t.mToggleWindow.SetTitle("显示窗口")
+				}
 			case <-t.mQuit.ClickedCh:
 				systray.Quit()
 				return

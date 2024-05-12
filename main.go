@@ -7,6 +7,7 @@ import (
 	"github.com/sirupsen/logrus"
 	"idv-login-go/config"
 	"idv-login-go/logger"
+	"idv-login-go/windowController"
 	"os"
 	"path/filepath"
 	"runtime"
@@ -29,7 +30,7 @@ func main() {
 		cmd.Start()
 		os.Exit(0)
 	}
-
+	windowController.GetWindowController().HideWindow()
 	// 切换工作目录
 	ex, err := os.Executable()
 	if err != nil {
